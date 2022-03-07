@@ -2,7 +2,7 @@
 - name: Install packages
   package:
     name: "{{ item }}"
-    state: installed
+    state: present
   with_items: "{{ garb_packages }}"
 
 - name: Generate garb configuration

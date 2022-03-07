@@ -12,6 +12,15 @@
   shell: 'mysql -u root --password="{{ _xtradb_root_temp_password.stdout }}" --connect-expired-password --execute="alter user ''root''@''localhost'' identified by ''{{ xtradb_root_password }}''" '
   when:
     - not _xtradb_password_changed.stat.exists
+    - _xtradb_root_temp_password.stdout
+  args:
+    creates: "{{ xtradb_password_changed }}"
+
+- name: Set the MySQL root password
+  shell: 'mysql --connect-expired-password --execute="alter user ''root''@''localhost'' identified by ''{{ xtradb_root_password }}''" '
+  when:
+    - not _xtradb_password_changed.stat.exists
+    - not _xtradb_root_temp_password.stdout
   args:
     creates: "{{ xtradb_password_changed }}"
 
